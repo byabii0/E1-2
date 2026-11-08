@@ -1,5 +1,43 @@
 # Git 저장소 설정
 
+  PS C:\Users\kmj04> mkdir quiz_project
+  
+  
+      디렉터리: C:\Users\kmj04
+  
+  
+  Mode                 LastWriteTime         Length Name                                                        
+  ----                 -------------         ------ ----                                                        
+  d-----      2026-11-08   오후 2:21                quiz_project                                                
+  
+  
+  PS C:\Users\kmj04> cd quiz_project
+  PS C:\Users\kmj04\quiz_project> git init
+  Initialized empty Git repository in C:/Users/kmj04/quiz_project/.git/
+  PS C:\Users\kmj04\quiz_project> git config --global user.name "**"
+  PS C:\Users\kmj04\quiz_project> git config --global user.email "**"
+  PS C:\Users\kmj04\quiz_project> git config --list
+  diff.astextplain.textconv=astextplain
+  filter.lfs.clean=git-lfs clean -- %f
+  filter.lfs.smudge=git-lfs smudge -- %f
+  filter.lfs.process=git-lfs filter-process
+  filter.lfs.required=true
+  http.sslbackend=schannel
+  core.autocrlf=true
+  core.fscache=true
+  core.symlinks=false
+  pull.rebase=false
+  credential.helper=manager
+  credential.https://dev.azure.com.usehttppath=true
+  init.defaultbranch=master
+  user.name=**
+  user.email=**
+  core.repositoryformatversion=0
+  core.filemode=false
+  core.bare=false
+  core.logallrefupdates=true
+  core.symlinks=false
+  core.ignorecase=true
 # 메뉴 기능
 
 # 공통 입력/예외 처리 기준(최소 요구)
