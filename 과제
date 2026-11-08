@@ -75,6 +75,11 @@
      469ef09..e2b9376  main -> main
   branch 'main' set up to track 'origin/main'.
 
+PS C:\Users\kmj0403232057\quiz_project> git commit -m "git 저장소 설정"
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
 
 
 # 메뉴 기능
