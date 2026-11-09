@@ -131,6 +131,8 @@ Switched to branch 'main'
 Your branch is ahead of 'origin/main' by 1 commit.
   (use "git push" to publish your local commits)
 
+git merge 기록
+
 root@GNIA-C202-D03:~/projects/E1-2# git merge feature/new-quiz
 Updating 5484aa3..0650cea
 Fast-forward
@@ -140,6 +142,9 @@ Fast-forward
 root@GNIA-C202-D03:~/projects/E1-2# git branch
   feature/new-quiz
 * main
+
+git push 기록
+
 root@GNIA-C202-D03:~/projects/E1-2# git push origin main
 Enumerating objects: 7, done.
 Counting objects: 100% (7/7), done.
