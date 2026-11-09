@@ -25,11 +25,11 @@ class QuizGame:
         else:
             # 초기 데이터 (파일이 없을 때만 생성)
             self.quizzes = [
-                {"question": "사과는 영어로?", "choices": ["Apple", "Banana", "Cherry", "Date"], "answer": 1},
-                {"question": "바나나는 무슨 색?", "choices": ["빨강", "노랑", "파랑", "초록"], "answer": 2},
-                {"question": "하늘을 나는 새는?", "choices": ["개", "고양이", "독수리", "토끼"], "answer": 3},
-                {"question": "대한민국의 수도는?", "choices": ["부산", "인천", "제주", "서울"], "answer": 4},
-                {"question": "1 + 1은?", "choices": ["1", "2", "3", "4"], "answer": 2}
+                {"question": "백상아리가 물 밖으로 뛰어오르는 행동은?", "choices": ["브레싱", "브리칭", "스파이호핑", "루트파인딩"], "answer": 2},
+                {"question": "백상아리가 전기장을 감지하는 기관은?", "choices": ["로렌스기관", "라이어트기관", "로렌치니기관", "레미아기관"], "answer": 3},
+                {"question": "백상아리가 에너지를 비축하는 기관은?", "choices": ["심장", "위", "대장", "간"], "answer": 4},
+                {"question": "백상아리의 천적은?", "choices": ["물개", "범고래", "해파리", "북극곰"], "answer": 2},
+                {"question": "백상아리의 멸종위기등급은?", "choices": ["CR(절멸 위급)", "EN(절멸 위기)", "VU(취약)", "NT(준위협)"], "answer": 3}
             ]
             self.save_data()
 
