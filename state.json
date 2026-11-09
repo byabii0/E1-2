@@ -1,0 +1,65 @@
+{
+    "quizzes": [
+        {
+            "question": "사과는 영어로?",
+            "choices": [
+                "Apple",
+                "Banana",
+                "Cherry",
+                "Date"
+            ],
+            "answer": 1
+        },
+        {
+            "question": "바나나는 무슨 색?",
+            "choices": [
+                "빨강",
+                "노랑",
+                "파랑",
+                "초록"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "하늘을 나는 새는?",
+            "choices": [
+                "개",
+                "고양이",
+                "독수리",
+                "토끼"
+            ],
+            "answer": 3
+        },
+        {
+            "question": "대한민국의 수도는?",
+            "choices": [
+                "부산",
+                "인천",
+                "제주",
+                "서울"
+            ],
+            "answer": 4
+        },
+        {
+            "question": "1 + 1은?",
+            "choices": [
+                "1",
+                "2",
+                "3",
+                "4"
+            ],
+            "answer": 2
+        },
+        {
+            "question": "하루는 몇 시간일까?",
+            "choices": [
+                "3시간",
+                "8시간",
+                "24시간",
+                "12시간"
+            ],
+            "answer": 3
+        }
+    ],
+    "score": 150
+}
