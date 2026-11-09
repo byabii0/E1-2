@@ -133,4 +133,14 @@ state.json: 퀴즈 데이터 및 점수가 자동 저장되는 파일
 
 퀴즈 추가 ㅣ 정답 번호 ㅣ 문자 입력 또는 1~4 범위를 벗어난 숫자 ㅣ 1 <= ans <= 4 조건 검증 및 예외 발생 시 재입력 루프
 
+<<<<<<< HEAD
 JSON 입출력 ㅣ state.json ㅣ "파일 미존재, 파일 손상 (JSONDecodeError)" ㅣ os.path.exists 검사 후 미존재 시 초기 데이터 생성
+=======
+JSON 입출력 ㅣ state.json ㅣ "파일 미존재, 파일 손상 (JSONDecodeError)" ㅣ os.path.exists 검사 후 미존재 시 초기 데이터 생성
+    Compressing objects: 100% (6/6), done.
+    Writing objects: 100% (6/6), 2.39 KiB | 2.39 MiB/s, done.
+    Total 6 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+    remote: Resolving deltas: 100% (1/1), done.
+    To https://github.com/byabii0/E1-2.git
+    8719b43..0650cea  main -> main
+>>>>>>> d3252d258bee0234d0c1eee68bf120543ee262e4
