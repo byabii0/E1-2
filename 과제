@@ -81,24 +81,72 @@ Your branch is up to date with 'origin/main'.
 
 nothing to commit, working tree clean
 
+root@GNIA-C202-D03:~/projects/E1-2# git add main.py
+root@GNIA-C202-D03:~/projects/E1-2# git commit -m "feat: 퀴즈 추가 기능 개선"
+[main 5484aa3] feat: 퀴즈 추가 기능 개선
+ Committer: root <root@GNIA-C202-D03.ad.gnia.kr>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
 
-# 메뉴 기능
+    git config --global --edit
 
-# 공통 입력/예외 처리 기준(최소 요구)
+After doing this, you may fix the identity used for this commit with:
 
-# Quiz 클래스
+    git commit --amend --reset-author
 
-# 기본 퀴즈 데이터
+ 1 file changed, 94 insertions(+)
+ create mode 100644 main.py
+root@GNIA-C202-D03:~/projects/E1-2# git checkout main
+Already on 'main'
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
 
-# 퀴즈 풀기(브랜치 활용)
+root@GNIA-C202-D03:~/projects/E1-2# git branch
+* main
+root@GNIA-C202-D03:~/projects/E1-2# git checkout -b feature/new-quiz
+Switched to a new branch 'feature/new-quiz'
+root@GNIA-C202-D03:~/projects/E1-2# git add .
+root@GNIA-C202-D03:~/projects/E1-2# git commit -m "feat: 브랜치 테스트를 위한 수정"
+[feature/new-quiz 0650cea] feat: 브랜치 테스트를 위한 수정
+ Committer: root <root@GNIA-C202-D03.ad.gnia.kr>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
 
-# 퀴즈 추가
+    git config --global --edit
 
-# 퀴즈 목록
+After doing this, you may fix the identity used for this commit with:
 
-# 점수 확인
+    git commit --amend --reset-author
 
-# QuizGame 클래스
+ 1 file changed, 65 insertions(+)
+ create mode 100644 state.json
+root@GNIA-C202-D03:~/projects/E1-2# git checkout main
+Switched to branch 'main'
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
 
-# 파일 저장/불러오기
-
+root@GNIA-C202-D03:~/projects/E1-2# git merge feature/new-quiz
+Updating 5484aa3..0650cea
+Fast-forward
+ state.json | 65 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+ create mode 100644 state.json
+root@GNIA-C202-D03:~/projects/E1-2# git branch
+  feature/new-quiz
+* main
+root@GNIA-C202-D03:~/projects/E1-2# git push origin main
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 24 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 2.39 KiB | 2.39 MiB/s, done.
+Total 6 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), done.
+To https://github.com/byabii0/E1-2.git
+   8719b43..0650cea  main -> main
