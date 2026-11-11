@@ -303,6 +303,9 @@ QuizGame 프로그램은 state.json 파일 입출력 과정에서 발생할 수 
 git clone 명령어 실행 기록
 <img width="1156" height="320" alt="image" src="https://github.com/user-attachments/assets/9d01b676-dcc2-428c-b1c2-1399b5b12be7" />
 
+git pull 명령어 실행 기록
+<img width="925" height="311" alt="image" src="https://github.com/user-attachments/assets/a94e10e9-1130-4844-a2be-6083e1f77d06" />
+
 
 # 커밋 단위 규정 및 메시지 템플릿
 
