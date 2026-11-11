@@ -338,6 +338,12 @@ git pull 명령어 실행 기록
    
    docs: 메서드 설명 보완
 
+커밋 로그 스크린샷
+<img width="1132" height="1816" alt="image" src="https://github.com/user-attachments/assets/a41c9891-ad02-4228-b4c2-14b42f22c314" />
+
+
+
+
 # 공통 입력/예외 처리 기준(최소 요구)
 
 **공통 입력 요소**
