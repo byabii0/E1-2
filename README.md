@@ -382,6 +382,11 @@ try-except: 숫자가 필요한 입력창에 문자나 특수문자가 들어올
 
 모든 입력창에서 아무 내용 없이 Enter만 입력하여 빈 값이 저장되는 것을 방지하기 위해, 입력값의 존재 여부를 검사하고 내용이 없을 경우 안내 메시지와 함께 재입력을 요구한다.
 
+# 충돌 마커 해결 스크린샷
+
+<img width="1017" height="732" alt="image" src="https://github.com/user-attachments/assets/2b117c4f-005d-4454-803f-b7baf38fae11" />
+
+
 
 =======
 ﻿
