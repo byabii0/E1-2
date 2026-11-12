@@ -95,7 +95,7 @@ class QuizGame:
 
         while True:
             try:
-                a = int(input("정답 번호(1-4): ").strip())
+                a = int(input("정답 번호: ").strip())
                 if 1 <= a <= 4:
                     break
                 print("1에서 4 사이의 숫자를 입력해주세요.")
