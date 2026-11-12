@@ -60,7 +60,7 @@ class QuizGame:
             num_choices = len(q['choices'])
             while True:
                 try:
-                    ans = int(input(f"정답 번호 (1-{num_choices}): ").strip())
+                    ans = int(input(f"정답 번호: ").strip())
                     if 1 <= ans <= num_choices:
                         break
                     print(f"1부터 {num_choices} 사이의 번호를 입력해주세요.")
