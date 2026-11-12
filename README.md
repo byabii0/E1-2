@@ -190,7 +190,7 @@ state.json: 퀴즈 데이터 및 점수가 자동 저장되는 파일
 .gitignore: Git이 무시할 파일 목록을 적어두는 텍스트 파일입니다. 이 파일에 적힌 파일이나 폴더는 Git이 추적하지 않으므로, GitHub 같은 원격 저장소에 올라가지 않습니다. 보안(비밀번호, API 키, 개인정보가 담긴 설정 파일), 불필요한 파일(프로그램 실행 시 자동으로 생성되는 임시 파일이나 캐시 파일(__pycache__/), 용량 관리(venv/: 파이썬 가상환경), 운영체제 차이(Mac의 .DS_store, Windows의 썸네일 파일 등) 등의 특정 파일들을 제외해야 합니다.
 
 실행 스크린샷 
-<img width="1668" height="1616" alt="image" src="https://github.com/user-attachments/assets/28822e01-265d-47d8-b541-8778b44ce91e" />
+![alt text](image.png)
 
 
 # 데이터 파일 설명
