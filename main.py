@@ -3,6 +3,7 @@ import os
 import signal
 import sys
 
+
 # 1. 클래스(OOP) 정의 및 캡슐화
 class Quiz:
     def __init__(self, question, choices, answer):
@@ -31,18 +32,16 @@ class Quiz:
 class QuizGame:
     def __init__(self):
         self.file_path = 'state.json'
-        self.quizzes = []  # Quiz 객체들이 담길 리스트
+        self.quizzes = []
         self.score = 0
-        self.load_data()   # 시작할 때 파일 불러오기
+        self.load_data()
 
-    # 2. JSON 파일 저장/불러오기 (객체 <-> 딕셔너리 변환)
     def load_data(self):
         if os.path.exists(self.file_path):
             try:
                 with open(self.file_path, 'r', encoding='utf-8') as f:
                     data = json.load(f)
                     raw_quizzes = data.get('quizzes', [])
-                    # 딕셔너리 리스트를 Quiz 객체 리스트로 변환
                     self.quizzes = [Quiz.from_dict(q) for q in raw_quizzes]
                     self.score = data.get('score', 0)
             except (json.JSONDecodeError, KeyError):
@@ -51,7 +50,6 @@ class QuizGame:
             self.init_default_quizzes()
 
     def init_default_quizzes(self):
-        # 딕셔너리가 아닌 Quiz 인스턴스로 생성
         self.quizzes = [
             Quiz("백상아리가 물 밖으로 뛰어오르는 행동은?", ["브레싱", "브리칭", "스파이호핑", "루트파인딩"], 2),
             Quiz("백상아리가 전기장을 감지하는 기관은?", ["로렌스기관", "라이어트기관", "로렌치니기관", "레미아기관"], 3),
@@ -62,12 +60,10 @@ class QuizGame:
         self.save_data()
 
     def save_data(self):
-        """데이터 동기화 전략: Quiz 객체들을 딕셔너리로 변환 후 파일 저장 보장"""
         quiz_dicts = [q.to_dict() for q in self.quizzes]
         with open(self.file_path, 'w', encoding='utf-8') as f:
             json.dump({"quizzes": quiz_dicts, "score": self.score}, f, ensure_ascii=False, indent=4)
 
-    # 3. 메뉴별 기능 구현 (Quiz 객체의 속성과 메서드 활용)
     def play_quiz(self):
         if not self.quizzes:
             print("\n등록된 퀴즈가 없습니다.")
@@ -82,25 +78,23 @@ class QuizGame:
             num_choices = len(q.choices)
             while True:
                 try:
-                    ans = int(input(f"정답 번호: ").strip())
+                    ans = int(input(f"정답 번호 (1-{num_choices}): ").strip())
                     if 1 <= ans <= num_choices:
                         break
                     print(f"1부터 {num_choices} 사이의 번호를 입력해주세요.")
                 except ValueError:
                     print("숫자만 입력해주세요.")
 
-            # Quiz 객체의 메서드를 호출하여 정답 확인
             if q.check_answer(ans):
                 print("정답입니다! (+10점)")
                 self.score += 10
             else:
                 print(f"틀렸습니다. 정답은 {q.answer}번입니다.")
-        
+
         self.save_data()
 
     def add_quiz(self):
         print("\n--- 새 퀴즈 추가 ---")
-        
         while True:
             q = input("새 문제 내용: ").strip()
             if q:
@@ -118,16 +112,14 @@ class QuizGame:
 
         while True:
             try:
-                a = int(input("정답 번호: ").strip())
+                a = int(input("정답 번호 (1-4): ").strip())
                 if 1 <= a <= 4:
                     break
                 print("1에서 4 사이의 숫자를 입력해주세요.")
             except ValueError:
                 print("숫자만 입력해주세요.")
 
-        # 새 Quiz 객체를 생성하여 리스트에 추가
-        new_quiz = Quiz(q, c, a)
-        self.quizzes.append(new_quiz)
+        self.quizzes.append(Quiz(q, c, a))
         self.save_data()
         print("퀴즈가 성공적으로 추가되었습니다!")
 
@@ -136,27 +128,24 @@ class QuizGame:
         if not self.quizzes:
             print("등록된 퀴즈가 없습니다.")
             return
-
         for i, q in enumerate(self.quizzes, 1):
             print(f"{i}. {q.question}")
 
     def show_score(self):
-        print(f"\n현재 누적 점수: {self.score}점")
+        print(f"\n현재 점수: {self.score}점")
 
-    # 안전한 종료 및 데이터 동기화
     def shutdown(self):
-        print("\n데이터를 동기화(저장)한 후 안전하게 프로그램을 종료합니다.")
+        print("\n데이터를 저장한 후 안전하게 프로그램을 종료합니다.")
         self.save_data()
         print("게임을 종료합니다.")
         sys.exit(0)
 
 
-# 4. 시그널 처리 및 메뉴 선택 시스템
 if __name__ == "__main__":
     game = QuizGame()
 
     def signal_handler(sig, frame):
-        print("\n\n[경고] 프로그램 강제 종료 시그널(SIGINT)이 감지되었습니다.")
+        print("\n\n[경고] 프로그램 강제 종료 시그널이 감지되었습니다.")
         game.shutdown()
 
     signal.signal(signal.SIGINT, signal_handler)
@@ -168,7 +157,7 @@ if __name__ == "__main__":
             print("1. 퀴즈 풀기")
             print("2. 퀴즈 추가")
             print("3. 퀴즈 목록 보기")
-            print("4. 현재 점수 확인")
+            print("4. 점수 확인")
             print("5. 종료")
 
             choice = input("메뉴 선택: ").strip()
@@ -176,9 +165,7 @@ if __name__ == "__main__":
             elif choice == '2': game.add_quiz()
             elif choice == '3': game.list_quizzes()
             elif choice == '4': game.show_score()
-            elif choice == '5':
-                game.shutdown()
-                break
+            elif choice == '5': game.shutdown()
             else: print("잘못된 입력입니다.")
         except KeyboardInterrupt:
             signal_handler(None, None)
