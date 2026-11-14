@@ -1,10 +1,10 @@
 import json
 import os
+import random
 import signal
 import sys
 
 
-# 1. 클래스(OOP) 정의 및 캡슐화
 class Quiz:
     def __init__(self, question, choices, answer):
         self.question = question
@@ -12,11 +12,9 @@ class Quiz:
         self.answer = answer
 
     def check_answer(self, user_answer):
-        """사용자의 입력이 정답인지 판별"""
         return self.answer == user_answer
 
     def to_dict(self):
-        """JSON 저장을 위해 객체를 딕셔너리로 변환"""
         return {
             "question": self.question,
             "choices": self.choices,
@@ -25,7 +23,6 @@ class Quiz:
 
     @classmethod
     def from_dict(cls, data):
-        """JSON에서 불러온 딕셔너리를 Quiz 객체로 복원"""
         return cls(data["question"], data["choices"], data["answer"])
 
 
@@ -33,7 +30,7 @@ class QuizGame:
     def __init__(self):
         self.file_path = 'state.json'
         self.quizzes = []
-        self.score = 0
+        self.best_score = 0
         self.load_data()
 
     def load_data(self):
@@ -43,7 +40,7 @@ class QuizGame:
                     data = json.load(f)
                     raw_quizzes = data.get('quizzes', [])
                     self.quizzes = [Quiz.from_dict(q) for q in raw_quizzes]
-                    self.score = data.get('score', 0)
+                    self.best_score = data.get('best_score', data.get('score', 0))
             except (json.JSONDecodeError, KeyError):
                 self.init_default_quizzes()
         else:
@@ -57,21 +54,26 @@ class QuizGame:
             Quiz("백상아리의 천적은?", ["물개", "범고래", "해파리", "북극곰"], 2),
             Quiz("백상아리의 멸종위기등급은?", ["CR(절멸 위급)", "EN(절멸 위기)", "VU(취약)", "NT(준위협)"], 3)
         ]
+        self.best_score = 0
         self.save_data()
 
     def save_data(self):
         quiz_dicts = [q.to_dict() for q in self.quizzes]
         with open(self.file_path, 'w', encoding='utf-8') as f:
-            json.dump({"quizzes": quiz_dicts, "score": self.score}, f, ensure_ascii=False, indent=4)
+            json.dump({"quizzes": quiz_dicts, "best_score": self.best_score}, f, ensure_ascii=False, indent=4)
 
     def play_quiz(self):
         if not self.quizzes:
-            print("\n등록된 퀴즈가 없습니다.")
+            print("\n등록된 퀴즈가 없습니다. 먼저 퀴즈를 추가해주세요.")
             return
 
-        print("\n--- 퀴즈 시작 ---")
-        for q in self.quizzes:
-            print(f"\n문제: {q.question}")
+        print("\n--- 퀴즈 시작 (랜덤 출제) ---")
+        shuffled_quizzes = random.sample(self.quizzes, len(self.quizzes))
+        total_questions = len(shuffled_quizzes)
+        correct_count = 0
+
+        for idx, q in enumerate(shuffled_quizzes, 1):
+            print(f"\n[문제 {idx}/{total_questions}] {q.question}")
             for i, choice in enumerate(q.choices, 1):
                 print(f"{i}) {choice}")
 
@@ -87,9 +89,19 @@ class QuizGame:
 
             if q.check_answer(ans):
                 print("정답입니다! (+10점)")
-                self.score += 10
+                correct_count += 1
             else:
                 print(f"틀렸습니다. 정답은 {q.answer}번입니다.")
+
+        round_score = correct_count * 10
+        print("\n--- 퀴즈 결과 ---")
+        print(f"총 {total_questions}문제 중 {correct_count}문제를 맞혔습니다! (이번 점수: {round_score}점)")
+
+        if round_score > self.best_score:
+            print(f"🎉 신기록 달성! 최고 점수가 갱신되었습니다. ({self.best_score}점 -> {round_score}점)")
+            self.best_score = round_score
+        else:
+            print(f"현재 최고 점수: {self.best_score}점")
 
         self.save_data()
 
@@ -132,7 +144,10 @@ class QuizGame:
             print(f"{i}. {q.question}")
 
     def show_score(self):
-        print(f"\n현재 점수: {self.score}점")
+        if self.best_score == 0:
+            print("\n아직 기록된 최고 점수가 없습니다. '1. 퀴즈 풀기'를 통해 첫 기록을 세워보세요!")
+        else:
+            print(f"\n역대 최고 점수: {self.best_score}점")
 
     def shutdown(self):
         print("\n데이터를 저장한 후 안전하게 프로그램을 종료합니다.")
@@ -157,7 +172,7 @@ if __name__ == "__main__":
             print("1. 퀴즈 풀기")
             print("2. 퀴즈 추가")
             print("3. 퀴즈 목록 보기")
-            print("4. 점수 확인")
+            print("4. 최고 점수 확인")
             print("5. 종료")
 
             choice = input("메뉴 선택: ").strip()
@@ -166,6 +181,6 @@ if __name__ == "__main__":
             elif choice == '3': game.list_quizzes()
             elif choice == '4': game.show_score()
             elif choice == '5': game.shutdown()
-            else: print("잘못된 입력입니다.")
+            else: print("잘못된 입력입니다. 1~5 사이의 번호를 선택해주세요.")
         except KeyboardInterrupt:
             signal_handler(None, None)
