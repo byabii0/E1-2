@@ -3,49 +3,71 @@ import os
 import signal
 import sys
 
-# 1. 클래스(OOP) 사용
+# 1. 클래스(OOP) 정의 및 캡슐화
 class Quiz:
     def __init__(self, question, choices, answer):
         self.question = question
         self.choices = choices
         self.answer = answer
 
+    def check_answer(self, user_answer):
+        """사용자의 입력이 정답인지 판별"""
+        return self.answer == user_answer
+
+    def to_dict(self):
+        """JSON 저장을 위해 객체를 딕셔너리로 변환"""
+        return {
+            "question": self.question,
+            "choices": self.choices,
+            "answer": self.answer
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        """JSON에서 불러온 딕셔너리를 Quiz 객체로 복원"""
+        return cls(data["question"], data["choices"], data["answer"])
+
+
 class QuizGame:
     def __init__(self):
         self.file_path = 'state.json'
-        self.quizzes = []
+        self.quizzes = []  # Quiz 객체들이 담길 리스트
         self.score = 0
-        self.load_data() # 시작할 때 파일 불러오기
+        self.load_data()   # 시작할 때 파일 불러오기
 
-    # 2. JSON 파일 저장/불러오기
+    # 2. JSON 파일 저장/불러오기 (객체 <-> 딕셔너리 변환)
     def load_data(self):
         if os.path.exists(self.file_path):
             try:
                 with open(self.file_path, 'r', encoding='utf-8') as f:
                     data = json.load(f)
-                    self.quizzes = data.get('quizzes', [])
+                    raw_quizzes = data.get('quizzes', [])
+                    # 딕셔너리 리스트를 Quiz 객체 리스트로 변환
+                    self.quizzes = [Quiz.from_dict(q) for q in raw_quizzes]
                     self.score = data.get('score', 0)
-            except json.JSONDecodeError:
+            except (json.JSONDecodeError, KeyError):
                 self.init_default_quizzes()
         else:
             self.init_default_quizzes()
 
     def init_default_quizzes(self):
+        # 딕셔너리가 아닌 Quiz 인스턴스로 생성
         self.quizzes = [
-            {"question": "백상아리가 물 밖으로 뛰어오르는 행동은?", "choices": ["브레싱", "브리칭", "스파이호핑", "루트파인딩"], "answer": 2},
-            {"question": "백상아리가 전기장을 감지하는 기관은?", "choices": ["로렌스기관", "라이어트기관", "로렌치니기관", "레미아기관"], "answer": 3},
-            {"question": "백상아리가 에너지를 비축하는 기관은?", "choices": ["심장", "위", "대장", "간"], "answer": 4},
-            {"question": "백상아리의 천적은?", "choices": ["물개", "범고래", "해파리", "북극곰"], "answer": 2},
-            {"question": "백상아리의 멸종위기등급은?", "choices": ["CR(절멸 위급)", "EN(절멸 위기)", "VU(취약)", "NT(준위협)"], "answer": 3}
+            Quiz("백상아리가 물 밖으로 뛰어오르는 행동은?", ["브레싱", "브리칭", "스파이호핑", "루트파인딩"], 2),
+            Quiz("백상아리가 전기장을 감지하는 기관은?", ["로렌스기관", "라이어트기관", "로렌치니기관", "레미아기관"], 3),
+            Quiz("백상아리가 에너지를 비축하는 기관은?", ["심장", "위", "대장", "간"], 4),
+            Quiz("백상아리의 천적은?", ["물개", "범고래", "해파리", "북극곰"], 2),
+            Quiz("백상아리의 멸종위기등급은?", ["CR(절멸 위급)", "EN(절멸 위기)", "VU(취약)", "NT(준위협)"], 3)
         ]
         self.save_data()
 
     def save_data(self):
-        """데이터 동기화 전략: 파일 저장 보장"""
+        """데이터 동기화 전략: Quiz 객체들을 딕셔너리로 변환 후 파일 저장 보장"""
+        quiz_dicts = [q.to_dict() for q in self.quizzes]
         with open(self.file_path, 'w', encoding='utf-8') as f:
-            json.dump({"quizzes": self.quizzes, "score": self.score}, f, ensure_ascii=False, indent=4)
+            json.dump({"quizzes": quiz_dicts, "score": self.score}, f, ensure_ascii=False, indent=4)
 
-    # 3. 메뉴별 기능 구현
+    # 3. 메뉴별 기능 구현 (Quiz 객체의 속성과 메서드 활용)
     def play_quiz(self):
         if not self.quizzes:
             print("\n등록된 퀴즈가 없습니다.")
@@ -53,11 +75,11 @@ class QuizGame:
 
         print("\n--- 퀴즈 시작 ---")
         for q in self.quizzes:
-            print(f"\n문제: {q['question']}")
-            for i, choice in enumerate(q['choices'], 1):
+            print(f"\n문제: {q.question}")
+            for i, choice in enumerate(q.choices, 1):
                 print(f"{i}) {choice}")
 
-            num_choices = len(q['choices'])
+            num_choices = len(q.choices)
             while True:
                 try:
                     ans = int(input(f"정답 번호 (1-{num_choices}): ").strip())
@@ -67,11 +89,12 @@ class QuizGame:
                 except ValueError:
                     print("숫자만 입력해주세요.")
 
-            if ans == q['answer']:
+            # Quiz 객체의 메서드를 호출하여 정답 확인
+            if q.check_answer(ans):
                 print("정답입니다! (+10점)")
                 self.score += 10
             else:
-                print(f"틀렸습니다. 정답은 {q['answer']}번입니다.")
+                print(f"틀렸습니다. 정답은 {q.answer}번입니다.")
         
         self.save_data()
 
@@ -102,7 +125,9 @@ class QuizGame:
             except ValueError:
                 print("숫자만 입력해주세요.")
 
-        self.quizzes.append({"question": q, "choices": c, "answer": a})
+        # 새 Quiz 객체를 생성하여 리스트에 추가
+        new_quiz = Quiz(q, c, a)
+        self.quizzes.append(new_quiz)
         self.save_data()
         print("퀴즈가 성공적으로 추가되었습니다!")
 
@@ -113,23 +138,23 @@ class QuizGame:
             return
 
         for i, q in enumerate(self.quizzes, 1):
-            print(f"{i}. {q['question']}")
+            print(f"{i}. {q.question}")
 
     def show_score(self):
         print(f"\n현재 누적 점수: {self.score}점")
 
-    # [보완] 안전한 종료 및 데이터 동기화
+    # 안전한 종료 및 데이터 동기화
     def shutdown(self):
         print("\n데이터를 동기화(저장)한 후 안전하게 프로그램을 종료합니다.")
         self.save_data()
         print("게임을 종료합니다.")
         sys.exit(0)
 
+
 # 4. 시그널 처리 및 메뉴 선택 시스템
 if __name__ == "__main__":
     game = QuizGame()
 
-    # [보완] 강제종료 시그널(Ctrl+C SIGINT, SIGTERM) 핸들러 등록
     def signal_handler(sig, frame):
         print("\n\n[경고] 프로그램 강제 종료 시그널(SIGINT)이 감지되었습니다.")
         game.shutdown()
