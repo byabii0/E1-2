@@ -143,7 +143,7 @@ class QuizGame:
         print(f"총 {total_questions}문제 중 {correct_count}문제를 맞혔습니다! (이번 점수: {round_score}점)")
 
         if round_score > self.best_score:
-            print(f"🎉 신기록 달성! 최고 점수가 갱신되었습니다. ({self.best_score}점 -> {round_score}점)")
+            print(f"신기록 달성! 최고 점수가 갱신되었습니다. ({self.best_score}점 -> {round_score}점)")
             self.best_score = round_score
         else:
             print(f"현재 최고 점수: {self.best_score}점")
